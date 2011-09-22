@@ -141,15 +141,16 @@ div.eg {
 
 .scannedimage {
     position: relative;
-    max-width: 100%;
+    float: center;
+    width: 100%;
     border: 2px solid black;
 }
 
 div.face {
     position: absolute;
-    border: solid 2px black;
+    border: solid 2px red;
 }
 
 div.face:hover {
-    border: solid 2px red;
+    border: solid 2px yellow;
 }

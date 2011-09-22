@@ -125,10 +125,18 @@ function sendForm() {
 
 function showResult() {
     
-    var output = document.getElementById("imagecanvas");
-    var responseObj = eval( '(' + response + ')' );
     
-    output.innerHTML = "Status : " + responseObj.status + "<br />";
+    var output = document.getElementById("imagecanvas");
+    
+    // remove old faces 
+     while (output.hasChildNodes()) {
+    output.removeChild(output.lastChild);
+    }
+    
+    var responseObj = eval( '(' + response + ')' );
+    var statusout = document.getElementById("output");
+    statusout.innerHTML = "Status : " + responseObj.status + "<br />";
+    
     
     var reader = new FileReader();
     
