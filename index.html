@@ -107,7 +107,7 @@ function sendForm() {
   var output = document.getElementById("output");
   
   var xhr = new XMLHttpRequest();
-  xhr.open("POST", "http://localhost/faceoff/api/index.php", true);
+  xhr.open("POST", "http://faceoff.adityabhatt.org/api/", true);
   xhr.onload = function(e) { 
     if (xhr.status == 200) {
     
