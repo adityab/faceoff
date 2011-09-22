@@ -30,8 +30,150 @@
 }(document, 'script', 'facebook-jssdk'));</script>
 
 <div class="fb-like" data-href="http://faceoff.adityabhatt.org" data-send="false" data-width="450" data-show-faces="true"></div>
+
+<script language = "javascript" src = "jquery-min.js"> </script>
+<script type = "text/javascript">
+
+// globals
+var selectedFile;
+var response;
+    var imgwidth;
+    var imgheight;
+
+// Check for the various File API support.
+if (window.File && window.FileReader && window.FileList && window.Blob) {
+  // Great success! All the File APIs are supported.
+} else {
+  alert("The File APIs are not fully supported in your browser. You won't be able to see the detection results on an	 image on this webpage.");
+}
+
+
+function mark(faces) {
+    
+    var fr = new FileReader;
+        fr.onload = function() {
+        var img = new Image;
+
+        img.onload = function() {
+            imgwidth = img.width;
+            imgheight = img.height;
+           
+    // get DOM image dimensions
+    var imgElement = document.getElementById("imagecanvas");
+    var DOMwidth = imgElement.offsetWidth;
+    var DOMheight = imgElement.offsetHeight;
+    
+    widthRatio = DOMwidth/imgwidth;
+    heightRatio = widthRatio;
+    
+    // must scale faces to fit resized image
+    for( var i = 0; i < faces.length; i++ ) {
+        var face = faces[i];
+    
+        face.x = face.x1 * widthRatio;
+        face.y = face.y1 * heightRatio;
+        face.width = (face.x2 - face.x1) * widthRatio;
+        face.height = (face.y2 - face.y1) * heightRatio;
+        var div = $('<div class="face">');
+
+        $('#imagecanvas').append(div);
+        $(div).css({
+            left: face.x,
+            top: face.y,
+            width: face.width,
+            height: face.height
+        });
+    }
+    
+    
+        };
         
+        img.src = fr.result;        
+    };
+    
+    
+    fr.readAsDataURL(selectedFile);
+    
+    
+}
+
+function sendForm() {
+
+  var form = document.forms.namedItem('fileinfo');
+  
+  document.getElementById("file").name  = "file";
+  
+  var data = new FormData(form);
+  var output = document.getElementById("output");
+  
+  var xhr = new XMLHttpRequest();
+  xhr.open("POST", "http://localhost/faceoff/api/index.php", true);
+  xhr.onload = function(e) { 
+    if (xhr.status == 200) {
+    
+    response = xhr.responseText;
+    showResult();
+
+    } else {
+      output.innerHTML += "Error " + xhr.status + " occurred uploading your file.<br />";
+    }
+  };
+
+  xhr.send(data);  
+}
+
+
+function showResult() {
+    
+    var output = document.getElementById("imagecanvas");
+    var responseObj = eval( '(' + response + ')' );
+    
+    output.innerHTML = "Status : " + responseObj.status + "<br />";
+    
+    var reader = new FileReader();
+    
+    reader.onload = (function (img) {
+        return function(e) { 
+            // render
+            output.innerHTML += ['<img class="scannedimage" src="', e.target.result, '" title="', img.name, '"/><br />'].join('');
+        };
+     })(window.selectedFile);
+     
+     reader.readAsDataURL(window.selectedFile);
+     
+     var faces = responseObj.face_list;
+     
+     mark(faces);
+    
+}
+
+</script>
+
+
+<div align = "center">
+  <form enctype="multipart/form-data" method="post" name="fileinfo">  
+  <input type="file" id="file" name="files"/>
+  </form>
+
+  <output id = "output"></output>
+  
+</div>
+
+
+<script>
+
+  function handleFileSelect(evt) {
+    var files = evt.target.files; // FileList object
+    selectedFile = files[0];
+    sendForm();
+  }
+
+  document.getElementById('file').addEventListener('change', handleFileSelect, false);
+</script>
+
+
         <div id = "div2">
+            <div id = "imagecanvas" width = "auto" height = "auto"></div>
             <p> FaceOff is a very simple web service which finds faces in your images. </p>
             <p> I wrote this as a learning effort - an <em>experiment</em> in wrapping C++ libraries with PHP. It uses <strong><a href = "http://libface.sf.net/">libface</a></strong>, a face detection and recognition library written in C++, which I worked on as one part of my Google Summer of Code 2010 project.</a> It uses the <code>libface_php</code> extension I've written using <a href = "http://www.swig.org"><strong>SWIG</strong></a> and some glue code. </p>
             <p> The source code is available on <a href = "https://github.com/adityab/faceoff"><strong>GitHub</strong></a>. </p>
