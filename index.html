@@ -1,9 +1,102 @@
-<html>
-<body>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"> 
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en"> 
 
-<form action="api/index.php" method="post" enctype="multipart/form-data">
-<input type="file" name="file" id="file" onchange="this.form.submit()"/> 
-</form>
+    <head> 
+        <meta http-equiv = "Content-Type" content = "text/html; charset=utf-8"/> 
+        <meta name = "description" content = "A web service for face detection using libface."/> 
+        <meta name = "copyright" content="Aditya Bhatt"/> 
+        <meta name = "keywords" content="faces, biometrics, api, libface"/> 
 
+        <title>FaceOff</title>
+        <link rel="stylesheet" type="text/css" href="sectionized.css"></link> 
+    </head>
+
+    <body>
+
+        <a href="http://github.com/adityab"><img style="position: absolute; top: 0; right: 0; border: 0;" src="https://a248.e.akamai.net/assets.github.com/img/e6bef7a091f5f3138b8cd40bc3e114258dd68ddf/687474703a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f72696768745f7265645f6161303030302e706e67" alt="Fork me on GitHub"></a>
+
+        <div align = "center">
+            <h1 class = "style1"> <a href = ".">FaceOff</a></h1>
+            <h2 class = "style2"> an experimental face detection web service </h2>
+        </div>
+
+<div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) {return;}
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/en_US/all.js#appId=289904544357220&xfbml=1";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+
+<div class="fb-like" data-href="http://faceoff.adityabhatt.org" data-send="false" data-width="450" data-show-faces="true"></div>
+        
+        <div id = "div2">
+            <p> FaceOff is a very simple web service which finds faces in your images. </p>
+            <p> I wrote this as a learning effort - an <em>experiment</em> in wrapping C++ libraries with PHP. It uses <strong><a href = "http://libface.sf.net/">libface</a></strong>, a face detection and recognition library written in C++, which I worked on as one part of my Google Summer of Code 2010 project.</a> It uses the <code>libface_php</code> extension I've written using <a href = "http://www.swig.org"><strong>SWIG</strong></a> and some glue code. </p>
+            <p> The source code is available on <a href = "https://github.com/adityab/faceoff"><strong>GitHub</strong></a>. </p>
+            <h3>API</h3>
+            <p> FaceOff takes a POST request to http://faceoff.adityabhatt.org/api/ (note the backslash at the end). There is a very simple way to do this with <strong><a href = "http://curl.haxx.se/">cURL</a></strong>.</p>
+           
+            <h4>Shell</h4>
+            <div class = "eg">
+            <pre>curl --form file=@/path/to/image/file/ http://faceoff.adityabhatt.org/api/</pre>
+            </div>
+            
+            <h4>PHP</h4>
+            <div class = "eg">
+<xmp><?php
+  
+// The API URL
+$api_url = 'http://faceoff.adityabhatt.org/api/';
+    
+// Our image 
+$filename = 'image.png';
+    	
+// The data to POST
+$post_data = array('file' => '@'. $filename);
+    	
+// Use the standard cURL API
+$ch = curl_init();
+curl_setopt($ch, CURLOPT_URL,$api_url);
+curl_setopt($ch, CURLOPT_POST,1);
+curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+curl_setopt($ch, CURLOPT_POSTFIELDS, $post_data);
+$result = curl_exec($ch);
+curl_close ($ch);
+
+// The result    
+echo $result;
+?></xmp>
+	        </div>
+            
+            <h3>Response</h3>
+            <p>Replies are encapsulated with <a href = "http://json.org"><strong>JSON</strong></a>. A sample reply with the information of two detected faces: </p>
+            <div class = "eg">
+            
+<pre>{
+    "status": "success",
+    "face_list": [
+                  {
+                    "x1":139,
+                    "y1":1362,
+                    "x2":233,
+                    "y2":1456
+                  },
+                  {
+                    "x1":137,
+                    "y1":545,
+                    "x2":624,
+                    "y2":1032
+                  }
+                 ]
+}</pre>
+            </div>
+            
+            <p>In addition, if the uploaded file cannot be read by libface - if it is not an image file, for instance, the <code>status</code> value will be <code>"notimage"</code>. If no faces are found, it should come with the value <code>"nofaces"</code> and an empty <code>face_list</code>.</p>
+        </div>
+
+
+<footer align = "center">FaceOff is made by <a href = "http://adityabhatt.org/"><b>Aditya Bhatt</b></a>. Contact me at <a href = "mailto:aditya@adityabhatt.org"><strong>aditya@adityabhatt.org</strong></a>.</footer>
 </body>
 </html>

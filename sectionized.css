@@ -1,0 +1,140 @@
+/* CSS Document */
+
+@import url(http://fonts.googleapis.com/css?family=Molengo&v1);
+
+#div0 {
+ width:100%;
+ 
+}
+#div1 {
+    position: relative;
+    top: 0;
+    float: left;
+    width: 20%;
+    text-align: right;
+}
+#div2 {
+ position:relative;
+  float:right;
+  width:100%; 
+ 
+}
+ 
+#footer {
+ width:100%;
+ text-align: center;
+clear: both;
+padding-top: 30px;
+display: block;
+}
+body,td,th {
+	font-family: Molengo, Myriad Pro, Myriad Pro Cond, Myriad Pro Light, Garamond, serif;
+}
+body {
+	margin-left: 20%;
+	margin-top: 20px;
+	margin-right: 20%;
+	margin-bottom: 20px;
+	background-repeat: repeat;
+}
+a:link {
+	color: #000000;
+	text-decoration: none;
+}
+a:visited {
+	text-decoration: none;
+	color: #000000;
+}
+a:hover {
+	text-decoration: none;
+	color: #CC0000;
+}
+a:active {
+	text-decoration: none;
+	color: #CC0000;
+}
+
+strong {
+    font-weight: normal;
+    background-color: #DDDDDD;
+}
+.style0 {
+	font-size: 20pt;
+}
+
+.style1 {
+	font-size: 36pt;
+	margin: 0px;
+	padding: 0px;
+    font-weight: normal;
+}
+.style2 {
+	font-size: 14pt;
+	margin: 0px;
+	padding: 0px;
+	color: #000000;
+    font-weight: normal;
+}
+.style3 {
+	font-size: 16pt;
+}
+.style4 {
+	font-size: 20pt;
+	color: #CC0000;
+}
+.style5 {
+	font-size: 14pt; 
+}
+
+.style6 {
+	font-size: 12pt;
+}
+.style7 {
+	text-decoration: underline;
+}
+
+.style8 {
+	font-size: 12pt;
+	margin: 0px;
+	padding: 0px;
+	text-decoration: underline;
+}
+
+.linkmain {
+    font-size: 16pt;
+    font-weight: bold;
+}
+
+.linkmain-large {
+    font-size: 30pt;
+    font-weight: bold;
+}
+.linkdesc {
+    margin-right: 5px;
+    font-size: 9pt;
+    font-weight: normal;
+    font-style: italic;
+    color: #555555
+}
+
+.link1 {
+	color: #CC0000;
+}
+.link2 {
+	font-size: 12pt;
+	color: #CC0000;
+	text-decoration: underline;
+}
+
+div.eg {
+    font-size: 10pt;
+    background-color: #222222;
+    padding: 10px;
+    margin-right: 20px;
+    margin-top: 10px;
+    white-space: normal;
+    border-radius: 5px;
+    -moz-border-radius: 5px;
+    font-family: 'Lucida Console', 'Bitstream Vera Sans Mono', 'Courier New', Monaco, Courier, monospace;
+    color: #FFFFFF;
+}
