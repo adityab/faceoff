@@ -244,7 +244,7 @@ echo $result;
 }</pre>
             </div>
             
-            <p>In addition, if the uploaded file cannot be read by libface - if it is not an image file, for instance, the <code>status</code> value will be <code>"notimage"</code>. If no faces are found, it should come with the value <code>"nofaces"</code> and an empty <code>face_list</code>.</p>
+            <p>In addition, if the uploaded file cannot be read by libface - if it is not an image file, for instance, the <code>status</code> value will be <code>"notimage"</code>. If no faces are found, it should come with the value <code>"nofaces"</code> and an empty <code>face_list</code>. Images larger than 3 MB won't be accepted and you'll get an error code of <code>"notimage"</code>.</p>
         </div>
 
 
